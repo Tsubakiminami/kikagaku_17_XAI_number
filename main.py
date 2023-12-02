@@ -41,6 +41,7 @@ import streamlit as st
 # タイトルを表示
 st.title('手描き数字の画像分類')
 st.sidebar.write('V0.00 R5(2023)/11/30')
+st.sidebar.write('V0.01 R5(2023)/12/02')
 
 
 # 必要なモジュールをインポートする
