@@ -40,7 +40,7 @@ import streamlit as st
 # 真っ先に行う処理
 # タイトルを表示
 st.title('手描き数字の画像分類')
-st.sidebar.write('V0.00 R5(2023)/11/30')
+# st.sidebar.write('V0.00 R5(2023)/11/30')
 st.sidebar.write('V0.01 R5(2023)/12/02')
 
 
@@ -84,7 +84,7 @@ def classify_img(uploaded_file):
 
     # ヒートマップ画像をローカルに保存し保存した画像ファイルを表示する
     my_predict.eXplainableAI(digit_MNIST_img)
-    st.write('上段はMNISTデータセットからランダムに拾った画像を例示し、下段がアップロードした画像での特徴部分です')
+    st.write('上段はMNISTデータセットからランダムに拾った画像で特徴量を例示し、下段がアップロードした画像での特徴量です')
     st.write('青色はマイナスに影響、赤色はプラスに影響を与えている部分らしいです')
     st.image('shap_plot white.png', caption='eXplainableAI', use_column_width=True)
 
