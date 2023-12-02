@@ -18,25 +18,54 @@
 #
 
 # 必要なモジュールをインポートする
-from PIL import Image
-import cv2
+from PIL import Image, ImageFilter, ImageOps
+# import cv2
 import numpy as np
 
 
 def CvToMNIST_img(uploaded_file):
-    # streamlit形式(PIL)をopencv(Numpy配列かスカラー)に変換
+    # # streamlit形式(PIL)をopencv(Numpy配列かスカラー)に変換
     uploaded_image = Image.open(uploaded_file)
-    freehand_image = np.array(uploaded_image)
+    # freehand_image = np.array(uploaded_image)
 
-    # グレースケール画像に変換
-    im = cv2.cvtColor(freehand_image, cv2.COLOR_BGR2GRAY)
+    # # グレースケール画像に変換
+    # im = cv2.cvtColor(freehand_image, cv2.COLOR_BGR2GRAY)
+    # # グレースケール画像を二値化
+    # _, thresh = cv2.threshold(im, 0, 255, cv2.THRESH_OTSU)
+    # # 二値化された画像を反転
+    # thresh = cv2.bitwise_not(thresh)
+    # # ガウスブラーを適用して補完
+    # thresh = cv2.GaussianBlur(thresh, (9, 9), 0)
+    # # 画像データをリサイズ
+    # im_t = cv2.resize(thresh, (28, 28), interpolation=cv2.INTER_CUBIC)
+    # # OpenCVの画像をPIL形式に変換して戻す
+    # return  Image.fromarray(im_t)
+
+    # グレースケールに変換
+    im = ImageOps.grayscale(uploaded_image)
+
     # グレースケール画像を二値化
-    _, thresh = cv2.threshold(im, 0, 255, cv2.THRESH_OTSU)
+    thresh = im.point(lambda x: 0 if x < 128 else 255, '1') # 128は閾値 閾値は適時調整
+
     # 二値化された画像を反転
-    thresh = cv2.bitwise_not(thresh)
-    # ガウスブラーを適用して補完
-    thresh = cv2.GaussianBlur(thresh, (9, 9), 0)
+    thresh = ImageOps.invert(thresh)
+
+    # RGBモードに変換
+    thresh_rgb = thresh.convert('RGB')
+    # ガウシアンブラーを適用
+    thresh_blurred = thresh_rgb.filter(ImageFilter.GaussianBlur(radius=8))
+    # グレースケールに戻す
+    im_t = thresh_blurred.convert('L')
+
     # 画像データをリサイズ
-    im_t = cv2.resize(thresh, (28, 28), interpolation=cv2.INTER_CUBIC)
-    # OpenCVの画像をPIL形式に変換して戻す
-    return  Image.fromarray(im_t)
+    im_t_resized = im_t.resize((28, 28), resample=Image.BICUBIC)
+    im_t_resized.save('thresh28x28.png')
+
+    # # PillowのImageをNumPy配列に変換
+    # Xt = np.array(im_t_resized)
+
+    # # 正規化
+    # Xt_std = Xt / 255.0
+
+    # return Xt_std
+    return im_t_resized    

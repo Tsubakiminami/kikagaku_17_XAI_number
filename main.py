@@ -75,9 +75,10 @@ def classify_img(uploaded_file):
     # アップロードした画像をMNIST画像仕様に変換する
     digit_MNIST_img = my_cvtmnist.CvToMNIST_img(uploaded_file)
     # MNIST画像変換した画像を表示する
-    st.image(digit_MNIST_img, caption='MNIST仕様画像', width=100)
+    st.image(digit_MNIST_img, caption='MNIST仕様画像')
     # MNIST画像に描かれている数字を予測する
     prediction = my_predict.PredictNumber(digit_MNIST_img)
+
     st.sidebar.write('予測結果',prediction)
     st.write('分類結果', str(prediction.numpy()))
 
