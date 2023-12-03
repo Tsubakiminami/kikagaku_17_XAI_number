@@ -52,8 +52,9 @@ def CvToMNIST_img(uploaded_file):
 
     # RGBモードに変換
     thresh_rgb = thresh.convert('RGB')
-    # ガウシアンブラーを適用
-    thresh_blurred = thresh_rgb.filter(ImageFilter.GaussianBlur(radius=8))
+    # # ガウシアンブラーを適用
+    # thresh_blurred = thresh_rgb.filter(ImageFilter.GaussianBlur(radius=8))
+    thresh_blurred = thresh_rgb
     # グレースケールに戻す
     im_t = thresh_blurred.convert('L')
 
