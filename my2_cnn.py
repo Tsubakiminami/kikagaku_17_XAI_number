@@ -4,8 +4,8 @@
 # ネットワーク定義を行うモジュール
 
 # 必要なモジュールをインポートする
-import pytorch_lightning as pl
-import torch.nn as nn
+import pytorch_lightning as pl      # Net1
+import torch.nn as nn               # Net2, Net3
 import torch.nn.functional as F
 
 

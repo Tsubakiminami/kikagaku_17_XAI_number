@@ -42,6 +42,7 @@ import streamlit as st
 st.title('手描き数字の画像分類')
 # st.sidebar.write('V0.00 R5(2023)/11/30')
 st.sidebar.write('V0.01 R5(2023)/12/02')
+st.sidebar.write('V0.02 R5(2023)/12/03')
 
 
 # 必要なモジュールをインポートする
@@ -79,8 +80,8 @@ def classify_img(uploaded_file):
     # MNIST画像に描かれている数字を予測する
     prediction = my_predict.PredictNumber(digit_MNIST_img)
 
-    st.sidebar.write('予測結果',prediction)
-    st.write('分類結果', str(prediction.numpy()))
+    st.sidebar.write(f'予測結果： {prediction}')
+    st.write(f'分類結果： {prediction.numpy()}')
 
     # ヒートマップ画像をローカルに保存し保存した画像ファイルを表示する
     my_predict.eXplainableAI(digit_MNIST_img)
@@ -100,10 +101,6 @@ btn_1 = st.button('分類を進めるには、ここをクリックして下さ�
 if btn_1:
     classify_img(uploaded_file)
 
-
-# 2023/12/1
-#whisperインストール
-# !pip install git+https://github.com/openai/whisper.git
 
 # btn_s1 = st.sidebar.button('画像サンプル１')
 # if btn_s1:

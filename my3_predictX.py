@@ -78,7 +78,7 @@ def PredictNumber(im):
     y = F.softmax(y, dim=1)
 
     # 予測ラベル
-    y = torch.argmax(y, dim=1)
+    y = torch.argmax(y)
 
     return y
 
@@ -130,7 +130,7 @@ def eXplainableAI(im):
     print('　確率：', y)
 
     # 予測ラベル
-    y = torch.argmax(y, dim=1)
+    y = torch.argmax(y)
     print('　予測ラベル：', y)
     print('--')
 
