@@ -45,7 +45,7 @@ import streamlit as st
 st.title('手描き数字の画像分類へようこそ')
 # st.sidebar.write('V0.00 R5(2023)/11/30')
 st.sidebar.write('''
-    V0.03 R5(2023)/12/04
+    V0.03 R5(2023)/12/06
     ''')
     # V0.01 R5(2023)/12/02 \n
     # V0.02 R5(2023)/12/03 \n
@@ -143,6 +143,7 @@ def main():
         else:
             if uploaded_file_sample is not None:
                 classify_img(uploaded_file_sample)   
+                # del st.session_state['key']
             else:
                 st.write('画像が未選択です。')  
 
