@@ -33,16 +33,22 @@
 #   ctr+c で止まる
 #
 
+# Stremlit とコード実行順序の関連を追跡し理解するためのPRINT文（ターミナルに出力される）
+global_flag = False
+print('START CODE', global_flag)
 
 # 必要なモジュールをインポートする
 import streamlit as st
 
 # 真っ先に行う処理
 # タイトルを表示
-st.title('手描き数字の画像分類')
+st.title('手描き数字の画像分類へようこそ')
 # st.sidebar.write('V0.00 R5(2023)/11/30')
-st.sidebar.write('V0.01 R5(2023)/12/02')
-st.sidebar.write('V0.02 R5(2023)/12/03')
+st.sidebar.write('''
+    V0.03 R5(2023)/12/04
+    ''')
+    # V0.01 R5(2023)/12/02 \n
+    # V0.02 R5(2023)/12/03 \n
 
 
 # 必要なモジュールをインポートする
@@ -54,20 +60,22 @@ import my1_cvtmnist as my_cvtmnist
 import my2_cnn as my_cnn
 import my3_predictX as my_predict
 
+
 # 使い方の説明を表示
 st.write('数字一つが写った画像をアップロードしてAIが数字を分類します。そして、どこを見て分類したのかをヒートマップで表示するAPIです。')
 
+col1, col2 = st.columns(2)
 
 # アップロードした画像を表示する
-def display_img(uploaded_file):
+def display_img(uploaded_file, col):
     # # バイトデータとしてファイルを読み取るとき
     # bytes_data = upload_file.getvalue()
     # st.write(bytes_data)
 
     # アップロードされた画像を表示
-    st.image(uploaded_file, caption='Uploaded Image.', width=200)
-    st.write("")
-    st.write("この画像から数字を予測します。")
+    with col:
+        st.image(uploaded_file, caption='Uploaded Image.', width=200)
+        st.write("この画像から数字を予測します。")
 
 
 def classify_img(uploaded_file):
@@ -90,24 +98,69 @@ def classify_img(uploaded_file):
     st.image('shap_plot white.png', caption='eXplainableAI', use_column_width=True)
 
 
-# ファイルをアップロードして表示する
-st.write('Step 1')
-uploaded_file = st.file_uploader('画像ファイルを選択してください。', type=['png','jpg','jpeg'])
-if uploaded_file is not None:
-    display_img(uploaded_file)
+def main():
+    global global_flag
 
-st.write('Step 2')
-btn_1 = st.button('分類を進めるには、ここをクリックして下さい。')
-if btn_1:
-    classify_img(uploaded_file)
+    # 各UIを定義するコードを最初に集める。
+    # ファイルを選択するUI
+    with col1:
+        st.write('Step 1')
+        uploaded_file = st.file_uploader('画像ファイルを選択してください。', type=['png','jpg','jpeg'])
+
+    # サンプルファイル名を選ぶボタン
+    btn_s1 = st.sidebar.button('サンプル 1', key='btn_s1')
+    uploaded_file_sample = None
+
+    # 分類開始するボタン
+    st.write('Step 2')
+    btn_1 = st.button('分類を進めるには、ここをクリックして下さい。', key='btn_1')
+
+    if btn_s1:
+        uploaded_file_sample = './sample_img/bblack01.png'
+        if 'key' not in st.session_state:
+            st.session_state['key'] = uploaded_file_sample
+
+    # 選択画像を表示する
+    if uploaded_file is not None:
+        print('uploaded_file ',uploaded_file)
+        display_img(uploaded_file, col2)
+
+    if btn_s1:
+        print('uploaded_file_sample ',uploaded_file_sample)
+        display_img(uploaded_file_sample, col2)
+
+    print('uploaded_file 2',uploaded_file)
+    print('uploaded_file_sample 2',uploaded_file_sample)
 
 
-# btn_s1 = st.sidebar.button('画像サンプル１')
-# if btn_s1:
-#     uploaded_file = Image.open('bblack01.png')
-#     display_img(uploaded_file)
+    # 分類する
+    if btn_1:
+        if 'key' in st.session_state:
+            uploaded_file_sample = st.session_state['key']
 
-# btn_s2 = st.sidebar.button('画像サンプル２')
-# if btn_s2:
-#     uploaded_file = Image.open('bblack02.png')
-#     display_img(uploaded_file)
+        if uploaded_file is not None:
+            classify_img(uploaded_file)
+        else:
+            if uploaded_file_sample is not None:
+                classify_img(uploaded_file_sample)   
+            else:
+                st.write('画像が未選択です。')  
+
+       
+        # if classify_file is not None:
+        #     print('変数のType',type(classify_file))
+        #     classify_img(classify_file)
+        # else:
+        #     print('画像ファイルが未選択です。')
+
+
+print("END CODE", global_flag)
+
+
+if __name__ == '__main__':
+    print('Main（）')
+    main()
+
+# picture = st.camera_input("Take a picture")
+# if picture:
+#     st.image(picture)
