@@ -35,20 +35,21 @@
 
 # Stremlit とコード実行順序の関連を追跡し理解するためのPRINT文（ターミナルに出力される）
 global_flag = False
-print('START CODE', global_flag)
+print('This main.py code starts.', global_flag)
 
 # 必要なモジュールをインポートする
 import streamlit as st
 
 # 真っ先に行う処理
 # タイトルを表示
-st.title('手描き数字の画像分類へようこそ')
+st.title('数字の画像分類へようこそ')
 # st.sidebar.write('V0.00 R5(2023)/11/30')
 st.sidebar.write('''
-    V0.03 R5(2023)/12/06
+    V0.04 R5(2023)/12/07
     ''')
     # V0.01 R5(2023)/12/02 \n
     # V0.02 R5(2023)/12/03 \n
+    # V0.03 R5(2023)/12/06)
 
 
 # 必要なモジュールをインポートする
@@ -108,26 +109,70 @@ def main():
         uploaded_file = st.file_uploader('画像ファイルを選択してください。', type=['png','jpg','jpeg'])
 
     # サンプルファイル名を選ぶボタン
-    btn_s1 = st.sidebar.button('サンプル 1', key='btn_s1')
+    btn_s0 = st.sidebar.button('サンプル画像0', key='btn_s0')
+    btn_s1 = st.sidebar.button('サンプル画像1', key='btn_s1')
+    btn_s2 = st.sidebar.button('サンプル画像2', key='btn_s2')
+    btn_s3 = st.sidebar.button('サンプル画像3', key='btn_s3')
+    btn_s4 = st.sidebar.button('サンプル画像4', key='btn_s4')
+    btn_s5 = st.sidebar.button('サンプル画像5', key='btn_s5')
+    btn_s6 = st.sidebar.button('サンプル画像6', key='btn_s6')
+    btn_s7 = st.sidebar.button('サンプル画像7', key='btn_s7')
+    btn_s8 = st.sidebar.button('サンプル画像8', key='btn_s8')
+    btn_s9 = st.sidebar.button('サンプル画像9', key='btn_s9')
     uploaded_file_sample = None
 
     # 分類開始するボタン
     st.write('Step 2')
     btn_1 = st.button('分類を進めるには、ここをクリックして下さい。', key='btn_1')
 
-    if btn_s1:
-        uploaded_file_sample = './sample_img/bblack01.png'
-        if 'key' not in st.session_state:
-            st.session_state['key'] = uploaded_file_sample
+
+    if btn_s0:
+        uploaded_file_sample ='./sample_img/black00.png'
+    else:
+        if btn_s1:
+            uploaded_file_sample ='./sample_img/black01.png'
+        else:
+            if btn_s2:
+                uploaded_file_sample ='./sample_img/black02.png'
+            else:
+                if btn_s3:
+                    uploaded_file_sample ='./sample_img/black03.png'
+                else:
+                    if btn_s4:
+                        uploaded_file_sample ='./sample_img/black04.png'
+                    else:
+                        if btn_s5:
+                            uploaded_file_sample ='./sample_img/black05.png'
+                        else:
+                            if btn_s6:
+                                uploaded_file_sample ='./sample_img/black06.png'
+                            else:
+                                if btn_s7:
+                                    uploaded_file_sample ='./sample_img/black07.png'
+                                else:
+                                    if btn_s8:
+                                        uploaded_file_sample ='./sample_img/black08.png'
+                                    else:
+                                        if btn_s9:
+                                            uploaded_file_sample ='./sample_img/black09.png'
+    if uploaded_file_sample is not None:
+        st.session_state['key'] = uploaded_file_sample
+        print('uploaded_file_sample ',uploaded_file_sample)
+        display_img(uploaded_file_sample, col2)       
+
+    # if btn_s1:
+    #     uploaded_file_sample = './sample_img/bblack01.png'
+    #     if 'key' not in st.session_state:
+    #         st.session_state['key'] = uploaded_file_sample
 
     # 選択画像を表示する
     if uploaded_file is not None:
         print('uploaded_file ',uploaded_file)
         display_img(uploaded_file, col2)
 
-    if btn_s1:
-        print('uploaded_file_sample ',uploaded_file_sample)
-        display_img(uploaded_file_sample, col2)
+    # if btn_s1:
+    #     print('uploaded_file_sample ',uploaded_file_sample)
+    #     display_img(uploaded_file_sample, col2)
 
     print('uploaded_file 2',uploaded_file)
     print('uploaded_file_sample 2',uploaded_file_sample)
@@ -155,11 +200,11 @@ def main():
         #     print('画像ファイルが未選択です。')
 
 
-print("END CODE", global_flag)
+print("This main.py code ends.", global_flag)
 
 
 if __name__ == '__main__':
-    print('Main（）')
+    print('Main（）runs.')
     main()
 
 # picture = st.camera_input("Take a picture")
