@@ -18,7 +18,7 @@ https://www.kyufu.mhlw.go.jp/kensaku/SSR103Scr02M
 　e.このアプリをデプロイする。
 https://kikagaku17xainumber-ver000.streamlit.app/
 
-コース学習期間：令和5年(2023)8月〜令和6年1月
+受講コース期間：令和5年(2023)8月〜令和6年1月
 
 まだ卒業していないので、この内容が要件をクリアするかは2024年1月に分かります。
 
